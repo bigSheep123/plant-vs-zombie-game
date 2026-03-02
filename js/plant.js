@@ -50,7 +50,7 @@ class Plant {
     }
     
     startAction() {
-        if (this.type === 'peashooter') {
+        if (this.type === 'peashooter' || this.type === 'snowpea') {
             this.shootTimer = setInterval(() => {
                 if (this.health > 0) {
                     this.shoot();
@@ -68,12 +68,14 @@ class Plant {
     shoot() {
         const hasZombieInRow = this.game.zombies.some(z => z.row === this.row && z.x > this.x);
         if (hasZombieInRow) {
-            this.game.createBullet(this.row, this.x + 50, this.y + 25);
+            this.game.createBullet(this.row, this.x + 50, this.y + 25, this.type === 'snowpea');
+            this.game.playSound('shoot');
         }
     }
     
     produceSun() {
         this.game.createSun(this.x + 25, this.y, 25);
+        this.game.playSound('sun');
     }
     
     takeDamage(amount) {
@@ -113,9 +115,17 @@ class Plant {
     explode() {
         const damage = this.config.damage;
         
-        if (this.type === 'jalapeno' || this.type === 'cherrybomb') {
+        if (this.type === 'jalapeno') {
             this.game.zombies.forEach(zombie => {
                 if (zombie.row === this.row) {
+                    zombie.takeDamage(damage);
+                }
+            });
+        } else if (this.type === 'cherrybomb') {
+            this.game.zombies.forEach(zombie => {
+                const rowDiff = Math.abs(zombie.row - this.row);
+                const colDiff = Math.abs(zombie.col - this.col);
+                if (rowDiff <= 1 && colDiff <= 1) {
                     zombie.takeDamage(damage);
                 }
             });

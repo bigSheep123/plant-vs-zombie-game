@@ -12,6 +12,21 @@
         <div id="menu-screen" class="screen active">
             <div class="menu-background">
                 <div class="lawn-pattern"></div>
+                <div class="fireworks">
+                    <div class="firework" style="left: 20%; top: 20%;"></div>
+                    <div class="firework" style="left: 50%; top: 15%;"></div>
+                    <div class="firework" style="left: 80%; top: 25%;"></div>
+                </div>
+                <div class="lanterns">
+                    <div class="lantern" style="left: 5%; top: 10%;">🏮</div>
+                    <div class="lantern" style="left: 15%; top: 15%;">🏮</div>
+                    <div class="lantern" style="right: 15%; top: 15%;">🏮</div>
+                    <div class="lantern" style="right: 5%; top: 10%;">🏮</div>
+                </div>
+                <div class="paper-cuttings">
+                    <div class="paper-cutting" style="left: 8%; bottom: 25%;">🐴</div>
+                    <div class="paper-cutting" style="right: 10%; bottom: 30%;">🐴</div>
+                </div>
             </div>
             <div class="menu-content">
                 <h1 class="game-title">
@@ -19,6 +34,7 @@
                     植物大战僵尸
                     <span class="title-zombie">🧟</span>
                 </h1>
+                <div class="year-badge">🐎 马年大吉 🐎</div>
                 <div class="menu-plants">
                     <div class="floating-plant" style="left: 10%;">🌻</div>
                     <div class="floating-plant" style="left: 30%; animation-delay: -2s;">🌷</div>
@@ -26,6 +42,12 @@
                     <div class="floating-plant" style="left: 90%; animation-delay: -1s;">🥕</div>
                 </div>
                 <button id="start-btn" class="menu-btn">开始游戏</button>
+                <div class="menu-buttons">
+                    <button id="shop-btn" class="menu-btn secondary-btn">商店</button>
+                    <button id="plant-book-btn" class="menu-btn secondary-btn">植物图鉴</button>
+                    <button id="zombie-book-btn" class="menu-btn secondary-btn">僵尸图鉴</button>
+                    <button id="settings-btn" class="menu-btn secondary-btn">设置</button>
+                </div>
             </div>
         </div>
 
@@ -39,29 +61,29 @@
                 <div class="level-cards">
                     <div class="level-card" data-level="1">
                         <div class="level-number">1</div>
-                        <div class="level-name">草地战场</div>
+                        <div class="level-name">草地初战</div>
                         <div class="level-difficulty easy">简单</div>
                         <div class="level-info">
-                            <p>普通僵尸</p>
-                            <p>3波 × 5只</p>
+                            <p>白天场景</p>
+                            <p>5波 × 5只</p>
                         </div>
                     </div>
                     <div class="level-card" data-level="2">
                         <div class="level-number">2</div>
-                        <div class="level-name">路障挑战</div>
+                        <div class="level-name">迷雾之夜</div>
                         <div class="level-difficulty medium">中等</div>
                         <div class="level-info">
-                            <p>普通 + 路障僵尸</p>
-                            <p>5波 × 8只</p>
+                            <p>夜晚 + 迷雾</p>
+                            <p>7波 × 6只</p>
                         </div>
                     </div>
                     <div class="level-card" data-level="3">
                         <div class="level-number">3</div>
-                        <div class="level-name">铁桶噩梦</div>
+                        <div class="level-name">倾斜屋顶</div>
                         <div class="level-difficulty hard">困难</div>
                         <div class="level-info">
-                            <p>普通 + 路障 + 铁桶</p>
-                            <p>7波 × 10只</p>
+                            <p>屋顶场景</p>
+                            <p>9波 × 8只</p>
                         </div>
                     </div>
                 </div>
@@ -119,6 +141,11 @@
                     <div class="plant-emoji">🍒</div>
                     <div class="plant-name">樱桃炸弹</div>
                     <div class="plant-cost">150 ☀️</div>
+                </div>
+                <div class="plant-card" data-plant="snowpea" data-cost="175">
+                    <div class="plant-emoji">🥦</div>
+                    <div class="plant-name">寒冰射手</div>
+                    <div class="plant-cost">175 ☀️</div>
                 </div>
             </div>
 

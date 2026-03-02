@@ -16,6 +16,8 @@ class Game {
         this.waveTimer = null;
         this.gameLoop = null;
         
+        this.audioContext = null;
+        
         this.init();
     }
     
@@ -24,9 +26,115 @@ class Game {
         this.initLawn();
     }
     
+    initAudio() {
+        if (!this.audioContext) {
+            this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        }
+    }
+    
+    playSound(type) {
+        this.initAudio();
+        
+        const ctx = this.audioContext;
+        const oscillator = ctx.createOscillator();
+        const gainNode = ctx.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(ctx.destination);
+        
+        switch(type) {
+            case 'shoot':
+                oscillator.frequency.setValueAtTime(800, ctx.currentTime);
+                oscillator.frequency.exponentialRampToValueAtTime(400, ctx.currentTime + 0.1);
+                gainNode.gain.setValueAtTime(0.1, ctx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
+                oscillator.start(ctx.currentTime);
+                oscillator.stop(ctx.currentTime + 0.1);
+                break;
+            case 'sun':
+                oscillator.frequency.setValueAtTime(600, ctx.currentTime);
+                oscillator.frequency.setValueAtTime(800, ctx.currentTime + 0.1);
+                gainNode.gain.setValueAtTime(0.1, ctx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.2);
+                oscillator.start(ctx.currentTime);
+                oscillator.stop(ctx.currentTime + 0.2);
+                break;
+            case 'plant':
+                oscillator.frequency.setValueAtTime(400, ctx.currentTime);
+                oscillator.frequency.exponentialRampToValueAtTime(600, ctx.currentTime + 0.15);
+                gainNode.gain.setValueAtTime(0.1, ctx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.15);
+                oscillator.start(ctx.currentTime);
+                oscillator.stop(ctx.currentTime + 0.15);
+                break;
+            case 'zombie':
+                oscillator.type = 'sawtooth';
+                oscillator.frequency.setValueAtTime(150, ctx.currentTime);
+                oscillator.frequency.exponentialRampToValueAtTime(80, ctx.currentTime + 0.3);
+                gainNode.gain.setValueAtTime(0.1, ctx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+                oscillator.start(ctx.currentTime);
+                oscillator.stop(ctx.currentTime + 0.3);
+                break;
+            case 'flag':
+                oscillator.frequency.setValueAtTime(400, ctx.currentTime);
+                oscillator.frequency.setValueAtTime(600, ctx.currentTime + 0.1);
+                oscillator.frequency.setValueAtTime(800, ctx.currentTime + 0.2);
+                gainNode.gain.setValueAtTime(0.15, ctx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+                oscillator.start(ctx.currentTime);
+                oscillator.stop(ctx.currentTime + 0.3);
+                break;
+            case 'explode':
+                oscillator.type = 'sawtooth';
+                oscillator.frequency.setValueAtTime(200, ctx.currentTime);
+                oscillator.frequency.exponentialRampToValueAtTime(50, ctx.currentTime + 0.4);
+                gainNode.gain.setValueAtTime(0.2, ctx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
+                oscillator.start(ctx.currentTime);
+                oscillator.stop(ctx.currentTime + 0.4);
+                break;
+            case 'gameover':
+                oscillator.type = 'sawtooth';
+                oscillator.frequency.setValueAtTime(300, ctx.currentTime);
+                oscillator.frequency.exponentialRampToValueAtTime(100, ctx.currentTime + 0.5);
+                gainNode.gain.setValueAtTime(0.2, ctx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.5);
+                oscillator.start(ctx.currentTime);
+                oscillator.stop(ctx.currentTime + 0.5);
+                break;
+            case 'victory':
+                oscillator.frequency.setValueAtTime(400, ctx.currentTime);
+                oscillator.frequency.setValueAtTime(500, ctx.currentTime + 0.15);
+                oscillator.frequency.setValueAtTime(600, ctx.currentTime + 0.3);
+                oscillator.frequency.setValueAtTime(800, ctx.currentTime + 0.45);
+                gainNode.gain.setValueAtTime(0.15, ctx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.6);
+                oscillator.start(ctx.currentTime);
+                oscillator.stop(ctx.currentTime + 0.6);
+                break;
+        }
+    }
+    
     setupEventListeners() {
         document.getElementById('start-btn').addEventListener('click', () => {
             this.showScreen('level-screen');
+        });
+        
+        document.getElementById('shop-btn')?.addEventListener('click', () => {
+            alert('商店功能开发中...');
+        });
+        
+        document.getElementById('plant-book-btn')?.addEventListener('click', () => {
+            alert('植物图鉴功能开发中...\n\n已有植物：\n- 豌豆射手：发射豌豆攻击\n- 向日葵：生产阳光\n- 坚果墙：高血量防御\n- 土豆地雷：延迟爆炸\n- 火爆辣椒：清除整行\n- 樱桃炸弹：3x3范围爆炸\n- 寒冰射手：冰豌豆减速');
+        });
+        
+        document.getElementById('zombie-book-btn')?.addEventListener('click', () => {
+            alert('僵尸图鉴功能开发中...\n\n已有僵尸：\n- 普通僵尸：基础敌人\n- 路障僵尸：2倍生命\n- 铁桶僵尸：高生命\n- 撑杆跳僵尸：跳跃植物\n- 旗帜僵尸：波次标记');
+        });
+        
+        document.getElementById('settings-btn')?.addEventListener('click', () => {
+            alert('设置功能开发中...');
         });
         
         document.getElementById('back-to-menu').addEventListener('click', () => {
@@ -101,7 +209,23 @@ class Game {
         this.reset();
         this.showScreen('game-screen');
         
-        document.getElementById('total-waves').textContent = LEVEL_CONFIG[this.level].totalWaves;
+        const config = LEVEL_CONFIG[this.level];
+        document.getElementById('total-waves').textContent = config.totalWaves;
+        
+        const gameScreen = document.getElementById('game-screen');
+        gameScreen.className = 'screen active';
+        
+        if (config.isNight) {
+            gameScreen.classList.add('night');
+        } else {
+            gameScreen.classList.remove('night');
+        }
+        
+        if (config.hasFog) {
+            gameScreen.classList.add('fog');
+        } else {
+            gameScreen.classList.remove('fog');
+        }
         
         this.startGame();
     }
@@ -134,6 +258,7 @@ class Game {
     
     startGame() {
         this.isRunning = true;
+        this.initAudio();
         this.startWaves();
         
         this.gameLoop = setInterval(() => {
@@ -193,15 +318,28 @@ class Game {
     spawnWave() {
         const config = LEVEL_CONFIG[this.level];
         
+        const isFlagWave = this.currentWave === config.flagWave || 
+                          (config.flagWave2 && this.currentWave === config.flagWave2);
+        
         for (let i = 0; i < config.zombiesPerWave; i++) {
             setTimeout(() => {
                 if (!this.isRunning) return;
                 
                 const row = Math.floor(Math.random() * 5);
-                const zombieTypes = config.zombieTypes;
-                const type = zombieTypes[Math.floor(Math.random() * zombieTypes.length)];
+                let type;
+                
+                if (isFlagWave && i === 0) {
+                    type = 'flag';
+                } else {
+                    const zombieTypes = config.zombieTypes.filter(t => t !== 'flag');
+                    type = zombieTypes[Math.floor(Math.random() * zombieTypes.length)];
+                }
                 
                 this.createZombie(type, row);
+                
+                if (isFlagWave && i === 0) {
+                    this.playSound('flag');
+                }
             }, i * 800);
         }
     }
@@ -211,8 +349,8 @@ class Game {
         this.zombies.push(zombie);
     }
     
-    createBullet(row, x, y) {
-        const bullet = new Bullet(row, x, y, this);
+    createBullet(row, x, y, isIce = false) {
+        const bullet = new Bullet(row, x, y, this, isIce);
         this.bullets.push(bullet);
     }
     
@@ -309,9 +447,12 @@ class Game {
         document.querySelectorAll('.plant-card').forEach(c => c.classList.remove('selected'));
         this.selectedPlantType = null;
         
+        this.playSound('plant');
+        
         if (this.selectedPlantType === 'jalapeno' || this.selectedPlantType === 'cherrybomb') {
             setTimeout(() => {
                 plant.explode();
+                this.playSound('explode');
             }, 500);
         }
     }
@@ -382,12 +523,14 @@ class Game {
     
     gameOver() {
         this.stopGame();
+        this.playSound('gameover');
         document.getElementById('final-score').textContent = this.score;
         this.showScreen('gameover-screen');
     }
     
     victory() {
         this.stopGame();
+        this.playSound('victory');
         const bonusScore = this.sun * 2;
         this.score += bonusScore;
         document.getElementById('victory-score').textContent = this.score;
