@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>植物大战僵尸</title>
+    <title>Plants vs Zombies</title>
     <style>
         * {
             margin: 0;
@@ -157,7 +157,7 @@
         @keyframes fall {
             to { top: 480px; }
         }
-        #game-over {
+        #game-over, #level-complete {
             position: absolute;
             top: 0;
             left: 0;
@@ -170,15 +170,18 @@
             justify-content: center;
             z-index: 200;
         }
-        #game-over.show {
+        #game-over.show, #level-complete.show {
             display: flex;
         }
-        #game-over h2 {
+        #game-over h2, #level-complete h2 {
             color: #ff4444;
             font-size: 3rem;
             margin-bottom: 20px;
         }
-        #restart-btn {
+        #level-complete h2 {
+            color: #4ade80;
+        }
+        .btn {
             padding: 15px 40px;
             font-size: 1.5rem;
             background: #4ade80;
@@ -188,9 +191,13 @@
             color: #1a1a2e;
             font-weight: bold;
             transition: transform 0.2s;
+            margin: 10px;
         }
-        #restart-btn:hover {
+        .btn:hover {
             transform: scale(1.1);
+        }
+        .btn-secondary {
+            background: #FFD700;
         }
         #wave-info {
             position: absolute;
@@ -224,41 +231,139 @@
         @keyframes fallFromSky {
             to { top: 500px; }
         }
+        #level-select {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 300;
+        }
+        #level-select.hidden {
+            display: none;
+        }
+        #level-select h2 {
+            color: #4ade80;
+            font-size: 3rem;
+            margin-bottom: 40px;
+            text-shadow: 0 0 20px rgba(74, 222, 128, 0.5);
+        }
+        .level-btn {
+            width: 300px;
+            padding: 30px;
+            margin: 15px;
+            font-size: 1.8rem;
+            background: rgba(139, 90, 43, 0.9);
+            border: 4px solid #5D3A1A;
+            border-radius: 15px;
+            cursor: pointer;
+            color: white;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .level-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .level-btn.easy {
+            border-color: #4ade80;
+        }
+        .level-btn.hard {
+            border-color: #ff4444;
+        }
+        .level-desc {
+            font-size: 1rem;
+            opacity: 0.8;
+            margin-top: 10px;
+        }
+        #level-info {
+            position: absolute;
+            top: 90px;
+            right: 10px;
+            background: rgba(255,215,0,0.9);
+            padding: 8px 15px;
+            border-radius: 10px;
+            font-size: 1rem;
+            color: #333;
+            z-index: 100;
+        }
     </style>
 </head>
 <body>
-    <h1>🌻 植物大战僵尸 🌻</h1>
+    <h1>Plants vs Zombies</h1>
     <div id="game-container">
+        <div id="level-select">
+            <h2>Select Level</h2>
+            <button class="level-btn easy" onclick="startGame(1)">
+                Level 1 - Easy
+                <div class="level-desc">Fewer zombies, slower speed</div>
+            </button>
+            <button class="level-btn hard" onclick="startGame(2)">
+                Level 2 - Hard
+                <div class="level-desc">More zombies, faster speed</div>
+            </button>
+        </div>
         <div id="lawn"></div>
-        <div id="sun-bar">☀️ <span id="sun-count">100</span></div>
+        <div id="sun-bar">Sun: <span id="sun-count">100</span></div>
         <div id="plant-bar">
             <div class="plant-card" data-plant="sunflower" data-cost="50">
-                <span class="icon">🌻</span>
+                <span class="icon">Sunflower</span>
                 <span class="cost">50</span>
             </div>
             <div class="plant-card" data-plant="peashooter" data-cost="100">
-                <span class="icon">🫛</span>
+                <span class="icon">Peashooter</span>
                 <span class="cost">100</span>
             </div>
             <div class="plant-card" data-plant="wallnut" data-cost="50">
-                <span class="icon">🥜</span>
+                <span class="icon">Wall-nut</span>
                 <span class="cost">50</span>
             </div>
             <div class="plant-card" data-plant="snowpea" data-cost="175">
-                <span class="icon">❄️</span>
+                <span class="icon">Snow Pea</span>
                 <span class="cost">175</span>
             </div>
         </div>
-        <div id="wave-info">波次: <span id="wave">1</span></div>
-        <div id="score">得分: <span id="score-value">0</span></div>
+        <div id="wave-info">Wave: <span id="wave">1</span></div>
+        <div id="score">Score: <span id="score-value">0</span></div>
+        <div id="level-info">Level: <span id="level-num">1</span></div>
         <div id="game-over">
-            <h2>游戏结束!</h2>
-            <p style="color: white; font-size: 1.5rem; margin-bottom: 20px;">最终得分: <span id="final-score">0</span></p>
-            <button id="restart-btn">重新开始</button>
+            <h2>Game Over!</h2>
+            <p style="color: white; font-size: 1.5rem; margin-bottom: 20px;">Final Score: <span id="final-score">0</span></p>
+            <button class="btn" onclick="backToMenu()">Back to Menu</button>
+        </div>
+        <div id="level-complete">
+            <h2>Level Complete!</h2>
+            <p style="color: white; font-size: 1.5rem; margin-bottom: 20px;">Score: <span id="complete-score">0</span></p>
+            <button class="btn" onclick="backToMenu()">Back to Menu</button>
         </div>
     </div>
 
     <script>
+        const levelConfig = {
+            1: {
+                name: "Level 1 - Easy",
+                spawnInterval: 6000,
+                waveTime: 35000,
+                maxWaves: 3,
+                zombieHealth: 80,
+                zombieSpeed: 0.25,
+                startingSun: 150
+            },
+            2: {
+                name: "Level 2 - Hard",
+                spawnInterval: 4000,
+                waveTime: 25000,
+                maxWaves: 5,
+                zombieHealth: 120,
+                zombieSpeed: 0.4,
+                startingSun: 100
+            }
+        };
+
         const game = {
             sun: 100,
             score: 0,
@@ -272,17 +377,22 @@
             lastTime: 0,
             spawnTimer: 0,
             sunTimer: 0,
-            waveTimer: 0
+            waveTimer: 0,
+            currentLevel: 1,
+            skySunTimer: null
         };
 
         const lawn = document.getElementById('lawn');
         const sunCountEl = document.getElementById('sun-count');
         const scoreEl = document.getElementById('score-value');
         const waveEl = document.getElementById('wave');
+        const levelNumEl = document.getElementById('level-num');
         const gameOverEl = document.getElementById('game-over');
+        const levelCompleteEl = document.getElementById('level-complete');
         const finalScoreEl = document.getElementById('final-score');
-        const restartBtn = document.getElementById('restart-btn');
+        const completeScoreEl = document.getElementById('complete-score');
         const plantCards = document.querySelectorAll('.plant-card');
+        const levelSelectEl = document.getElementById('level-select');
 
         function init() {
             for (let i = 0; i < 5; i++) {
@@ -301,11 +411,49 @@
                     placePlant(e);
                 }
             });
+        }
 
-            restartBtn.addEventListener('click', restartGame);
+        function startGame(level) {
+            const config = levelConfig[level];
+            game.currentLevel = level;
+            game.sun = config.startingSun;
+            game.score = 0;
+            game.wave = 1;
+            game.plants = [];
+            game.zombies = [];
+            game.bullets = [];
+            game.suns = [];
+            game.gameOver = false;
+            game.lastTime = 0;
+            game.spawnTimer = 0;
+            game.sunTimer = 0;
+            game.waveTimer = 0;
 
-            requestAnimationFrame(gameLoop);
+            lawn.querySelectorAll('.plant, .zombie, .bullet, .sun, .sun-from-sky').forEach(el => el.remove());
+            
+            sunCountEl.textContent = game.sun;
+            scoreEl.textContent = 0;
+            waveEl.textContent = 1;
+            levelNumEl.textContent = level;
+            gameOverEl.classList.remove('show');
+            levelCompleteEl.classList.remove('show');
+            levelSelectEl.classList.add('hidden');
+
+            plantCards.forEach(c => c.classList.remove('selected'));
+            game.selectedPlant = null;
+
+            if (game.skySunTimer) clearTimeout(game.skySunTimer);
             spawnSkySun();
+            requestAnimationFrame(gameLoop);
+        }
+
+        function backToMenu() {
+            game.gameOver = true;
+            if (game.skySunTimer) clearTimeout(game.skySunTimer);
+            gameOverEl.classList.remove('show');
+            levelCompleteEl.classList.remove('show');
+            levelSelectEl.classList.remove('hidden');
+            lawn.querySelectorAll('.plant, .zombie, .bullet, .sun, .sun-from-sky').forEach(el => el.remove());
         }
 
         function selectPlant(card) {
@@ -338,10 +486,10 @@
             plantEl.style.top = '10px';
 
             const icons = {
-                sunflower: '🌻',
-                peashooter: '🫛',
-                wallnut: '🥜',
-                snowpea: '❄️'
+                sunflower: 'Sunflower',
+                peashooter: 'Peashooter',
+                wallnut: 'Wall-nut',
+                snowpea: 'Snow Pea'
             };
             plantEl.textContent = icons[game.selectedPlant.type];
 
@@ -366,10 +514,11 @@
         }
 
         function spawnZombie() {
+            const config = levelConfig[game.currentLevel];
             const row = Math.floor(Math.random() * 5);
             const zombieEl = document.createElement('div');
             zombieEl.className = 'zombie';
-            zombieEl.textContent = '🧟';
+            zombieEl.textContent = 'Zombie';
             zombieEl.style.left = '900px';
             
             const rows = lawn.querySelectorAll('.row');
@@ -379,8 +528,8 @@
                 row: row,
                 x: 900,
                 el: zombieEl,
-                health: 100,
-                speed: 0.3 + game.wave * 0.05,
+                health: config.zombieHealth,
+                speed: config.zombieSpeed + game.wave * 0.05,
                 slowed: false
             });
         }
@@ -406,7 +555,7 @@
         function spawnSun(x, y, fromSky = false) {
             const sunEl = document.createElement('div');
             sunEl.className = fromSky ? 'sun-from-sky' : 'sun';
-            sunEl.textContent = '☀️';
+            sunEl.textContent = 'Sun';
             sunEl.style.left = x + 'px';
             sunEl.style.top = y + 'px';
 
@@ -431,7 +580,7 @@
             if (game.gameOver) return;
             const x = 100 + Math.random() * 700;
             spawnSun(x, 0, true);
-            setTimeout(spawnSkySun, 5000 + Math.random() * 5000);
+            game.skySunTimer = setTimeout(spawnSkySun, 5000 + Math.random() * 5000);
         }
 
         function collectSun(sun) {
@@ -467,9 +616,10 @@
 
             const deltaTime = timestamp - game.lastTime;
             game.lastTime = timestamp;
+            const config = levelConfig[game.currentLevel];
 
             game.spawnTimer += deltaTime;
-            if (game.spawnTimer > (5000 - game.wave * 500)) {
+            if (game.spawnTimer > config.spawnInterval - game.wave * 300) {
                 spawnZombie();
                 game.spawnTimer = 0;
             }
@@ -485,7 +635,11 @@
             }
 
             game.waveTimer += deltaTime;
-            if (game.waveTimer > 30000) {
+            if (game.waveTimer > config.waveTime) {
+                if (game.wave >= config.maxWaves && game.zombies.length === 0) {
+                    levelComplete();
+                    return;
+                }
                 game.wave++;
                 waveEl.textContent = game.wave;
                 game.waveTimer = 0;
@@ -559,6 +713,11 @@
                 }
             }
 
+            if (game.wave >= config.maxWaves && game.zombies.length === 0) {
+                levelComplete();
+                return;
+            }
+
             requestAnimationFrame(gameLoop);
         }
 
@@ -566,34 +725,14 @@
             game.gameOver = true;
             finalScoreEl.textContent = game.score;
             gameOverEl.classList.add('show');
+            if (game.skySunTimer) clearTimeout(game.skySunTimer);
         }
 
-        function restartGame() {
-            game.sun = 100;
-            game.score = 0;
-            game.wave = 1;
-            game.plants = [];
-            game.zombies = [];
-            game.bullets = [];
-            game.suns = [];
-            game.gameOver = false;
-            game.lastTime = 0;
-            game.spawnTimer = 0;
-            game.sunTimer = 0;
-            game.waveTimer = 0;
-
-            lawn.querySelectorAll('.plant, .zombie, .bullet, .sun, .sun-from-sky').forEach(el => el.remove());
-            
-            sunCountEl.textContent = 100;
-            scoreEl.textContent = 0;
-            waveEl.textContent = 1;
-            gameOverEl.classList.remove('show');
-
-            plantCards.forEach(c => c.classList.remove('selected'));
-            game.selectedPlant = null;
-
-            spawnSkySun();
-            requestAnimationFrame(gameLoop);
+        function levelComplete() {
+            game.gameOver = true;
+            completeScoreEl.textContent = game.score;
+            levelCompleteEl.classList.add('show');
+            if (game.skySunTimer) clearTimeout(game.skySunTimer);
         }
 
         init();
