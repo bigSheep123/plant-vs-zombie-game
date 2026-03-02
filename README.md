@@ -1,60 +1,77 @@
-# Plants vs Zombies
+# 植物大战僵尸
 
-A Plants vs Zombies game built with HTML5, CSS3, and JavaScript.
+一个使用 HTML5、CSS3 和 JavaScript 编写的植物大战僵尸游戏。
 
-## About This Project
+## 在线试玩
 
-This is my first project! I am **opencode**, an AI assistant created by **dh**. This project has been uploaded to dh's GitHub account.
+**https://bigsheep123.github.io/plant-vs-zombie-game/**
 
-## Game Features
+## 游戏特性
 
-- **Level Selection**: Choose between 2 difficulty levels
-- **Plant Selection**: Choose from 4 different plant types
-- **Sun Collection**: Collect sun to purchase more plants
-- **Wave System**: Progressive difficulty with increasing waves
-- **Score System**: Earn points by defeating zombies
+- **马年新春主题**：红灯笼、烟花、剪纸马吉祥物
+- **关卡选择**：3个精心设计的关卡
+- **7种植物**：不同的功能和策略选择
+- **5种僵尸**：各有特色的敌人
+- **阳光系统**：收集阳光购买植物
+- **波次系统**：逐波增加的难度
+- **音效系统**：射击、爆炸、胜利失败音效
 
-## Level System
+## 关卡系统
 
-### Level 1 - Easy
-- Fewer zombies spawn
-- Slower zombie speed
-- 3 waves to complete
-- Starting sun: 150
+### 关卡 1 - 草地初战
+- 白天场景
+- 5波僵尸，含1个旗帜僵尸波次
+- 解锁植物：向日葵、豌豆射手、坚果墙、土豆地雷
 
-### Level 2 - Hard
-- More zombies spawn
-- Faster zombie speed
-- 5 waves to complete
-- Higher zombie health
-- Starting sun: 100
+### 关卡 2 - 迷雾之夜
+- 夜晚场景 + 迷雾
+- 7波僵尸，含2个旗帜僵尸波次
+- 初始阳光为0，需靠向日葵生产
 
-## Plant Types
+### 关卡 3 - 倾斜屋顶
+- 屋顶场景
+- 9波僵尸，含2个旗帜僵尸波次
+- 更强的僵尸类型
 
-| Plant | Sun Cost | Ability |
-|-------|----------|---------|
-| Sunflower | 50 | Produces sun |
-| Peashooter | 100 | Shoots peas at zombies |
-| Wall-nut | 50 | Blocks zombie advancement |
-| Snow Pea | 175 | Shoots ice peas that slow zombies |
+## 植物图鉴
 
-## How to Play
+| 植物 | 阳光消耗 | 功能 |
+|------|----------|------|
+| 向日葵 🌻 | 50 | 每10秒生产25阳光 |
+| 豌豆射手 🫛 | 100 | 发射豌豆攻击僵尸 |
+| 坚果墙 🥜 | 50 | 高血量阻挡僵尸 |
+| 土豆地雷 💣 | 25 | 延迟后爆炸，秒杀僵尸 |
+| 火爆辣椒 🌶️ | 125 | 清除整行僵尸 |
+| 樱桃炸弹 🍒 | 150 | 3x3范围高伤害 |
+| 寒冰射手 🥦 | 175 | 发射冰豌豆，减速僵尸 |
 
-1. Select a level from the menu
-2. Click a plant card at the top to select a plant
-3. Click on the lawn to place the plant
-4. Collect sun that falls from the sky or is produced by sunflowers
-5. Prevent zombies from reaching the left side!
-6. Survive all waves to complete the level
+## 僵尸图鉴
 
-## Running the Game
+| 僵尸 | 生命值 | 速度 | 特点 |
+|------|--------|------|------|
+| 普通僵尸 🧟 | 100 | 中等 | 基础敌人 |
+| 路障僵尸 🧢 | 200 | 中等 | 头戴路障，2倍生命 |
+| 铁桶僵尸 🪣 | 400 | 慢 | 头戴铁桶，高生命 |
+| 撑杆跳僵尸 🎋 | 100 | 快 | 可跳过植物 |
+| 旗帜僵尸 🚩 | 100 | 中等 | 波次标记 |
 
-Simply open `plant_vs_zombie.html` in any modern web browser.
+## 游戏玩法
 
-## View on GitHub
+1. 从主界面点击「开始游戏」
+2. 选择关卡
+3. 点击上方植物卡牌选择植物
+4. 点击草坪放置植物
+5. 收集天空掉落的阳光或向日葵生产的阳光
+6. 阻止僵尸到达左侧房屋！
+7. 击败所有波次即可获胜
 
-https://github.com/bigSheep123/plant-vs-zombie-game
+## 运行游戏
 
-## Play Online
+直接在浏览器中打开 `index.html` 即可游玩。
 
-https://bigsheep123.github.io/plant-vs-zombie-game/plant_vs_zombie.html
+## 技术栈
+
+- HTML5
+- CSS3 (动画、渐变、Flexbox/Grid)
+- JavaScript (ES6+)
+- Web Audio API (音效)
