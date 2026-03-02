@@ -108,7 +108,7 @@ const ZOMBIE_CONFIG = {
         name: "普通僵尸",
         emoji: "🧟",
         health: 100,
-        speed: 0.3,
+        speed: 0.8,
         damage: 10,
         attackInterval: 1000
     },
@@ -116,7 +116,7 @@ const ZOMBIE_CONFIG = {
         name: "路障僵尸",
         emoji: "🧢",
         health: 200,
-        speed: 0.3,
+        speed: 0.8,
         damage: 10,
         attackInterval: 1000
     },
@@ -124,7 +124,7 @@ const ZOMBIE_CONFIG = {
         name: "铁桶僵尸",
         emoji: "🪣",
         health: 400,
-        speed: 0.25,
+        speed: 0.6,
         damage: 10,
         attackInterval: 1000
     },
@@ -132,7 +132,7 @@ const ZOMBIE_CONFIG = {
         name: "撑杆跳僵尸",
         emoji: "🎋",
         health: 100,
-        speed: 0.5,
+        speed: 1.2,
         damage: 10,
         attackInterval: 1000,
         canJump: true
@@ -141,7 +141,7 @@ const ZOMBIE_CONFIG = {
         name: "旗帜僵尸",
         emoji: "🚩",
         health: 100,
-        speed: 0.3,
+        speed: 0.8,
         damage: 10,
         attackInterval: 1000,
         isFlag: true

@@ -212,6 +212,12 @@ class Game {
         const config = LEVEL_CONFIG[this.level];
         document.getElementById('total-waves').textContent = config.totalWaves;
         
+        if (config.isNight) {
+            this.sun = 0;
+        } else {
+            this.sun = 50;
+        }
+        
         const gameScreen = document.getElementById('game-screen');
         gameScreen.className = 'screen active';
         
@@ -227,11 +233,19 @@ class Game {
             gameScreen.classList.remove('fog');
         }
         
+        this.updateUI();
         this.startGame();
     }
     
     reset() {
-        this.sun = 50;
+        const config = LEVEL_CONFIG[this.level];
+        
+        if (config.isNight) {
+            this.sun = 0;
+        } else {
+            this.sun = 50;
+        }
+        
         this.score = 0;
         this.currentWave = 0;
         
@@ -284,15 +298,30 @@ class Game {
     }
     
     startSunSpawner() {
-        this.sunSpawner = setInterval(() => {
-            if (this.isRunning && Math.random() < 0.3) {
-                this.createSun(
-                    Math.random() * (window.innerWidth - 200) + 100,
-                    100,
-                    25
-                );
-            }
-        }, 5000);
+        const config = LEVEL_CONFIG[this.level];
+        const isNight = config.isNight;
+        
+        if (isNight) {
+            this.sunSpawner = setInterval(() => {
+                if (this.isRunning) {
+                    this.createSun(
+                        Math.random() * (window.innerWidth - 200) + 100,
+                        100,
+                        25
+                    );
+                }
+            }, 8000);
+        } else {
+            this.sunSpawner = setInterval(() => {
+                if (this.isRunning && Math.random() < 0.5) {
+                    this.createSun(
+                        Math.random() * (window.innerWidth - 200) + 100,
+                        100,
+                        25
+                    );
+                }
+            }, 3000);
+        }
     }
     
     startWaves() {
