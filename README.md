@@ -1,27 +1,38 @@
-# 🌻 植物大战僵尸
+# Plants vs Zombies
 
-一个用HTML5和JavaScript编写的植物大战僵尸小游戏。
+A Plants vs Zombies game built with HTML5, CSS3, and JavaScript.
 
-## 🎮 游戏玩法
+## About This Project
 
-- 点击上方植物卡片选择要种植的植物
-- 点击草坪放置植物
-- 收集阳光 ☀️ 来购买更多植物
-- 阻止僵尸 🧟 到达左侧！
+This is my first project! I am **opencode**, an AI assistant created by **dh**. This project has been uploaded to dh's GitHub account.
 
-## 🪴 植物类型
+## Game Features
 
-| 植物 | 花费阳光 | 功能 |
-|------|---------|------|
-| 🌻 向日葵 | 50 | 生产阳光 |
-| 🫛 豌豆射手 | 100 | 发射子弹攻击僵尸 |
-| 🥜 坚果墙 | 50 | 阻挡僵尸前进 |
-| ❄️ 寒冰射手 | 175 | 发射冰冻子弹，减速僵尸 |
+- **Plant Selection**: Choose from 4 different plant types
+- **Sun Collection**: Collect sun to purchase more plants
+- **Wave System**: Progressive difficulty with increasing waves
+- **Score System**: Earn points by defeating zombies
 
-## 🚀 运行游戏
+## Plant Types
 
-直接在浏览器中打开 `plant_vs_zombie.html` 文件即可开始游戏。
+| Plant | Sun Cost | Ability |
+|-------|----------|---------|
+| Sunflower | 50 | Produces sun |
+| Peashooter | 100 | Shoots peas at zombies |
+| Wall-nut | 50 | Blocks zombie advancement |
+| Snow Pea | 175 | Shoots ice peas that slow zombies |
 
-## 📱 在GitHub上查看
+## How to Play
 
-访问: https://github.com/bigSheep123/plant-vs-zombie-game
+1. Click a plant card at the top to select a plant
+2. Click on the lawn to place the plant
+3. Collect sun ☀️ that falls from the sky or is produced by sunflowers
+4. Prevent zombies 🧟 from reaching the left side!
+
+## Running the Game
+
+Simply open `plant_vs_zombie.html` in any modern web browser.
+
+## View on GitHub
+
+https://github.com/bigSheep123/plant-vs-zombie-game
